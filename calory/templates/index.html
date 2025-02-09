@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calorie Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Upload Your Food Image</h1>
+    <input type="file" id="fileInput">
+    <button onclick="uploadImage()">Upload</button>
+
+    <h2>Calories Consumed Today</h2>
+    <p id="caloriesDisplay">0</p>
+
+    <script>
+        async function uploadImage() {
+            let file = document.getElementById('fileInput').files[0];
+            let formData = new FormData();
+            formData.append("image", file);
+
+            let response = await fetch("/upload", { method: "POST", body: formData });
+            let data = await response.json();
+            document.getElementById("caloriesDisplay").innerText = data.calories + " kcal";
+        }
+    </script>
+</body>
+</html>
